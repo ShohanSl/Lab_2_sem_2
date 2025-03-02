@@ -5,6 +5,7 @@
 
 void task(char* filename){
     FILE* file = fopen(filename, "w");
+    if (errorCatch()) return;
     int isInputed = 0, wordLength, curLength = 0, lengthCount = 0;
     char inp, out, firstLetter;
     printf("\nEnter a string\n(Acceptable characters: A-Z, a-z, ' ')\n\n");
@@ -12,6 +13,7 @@ void task(char* filename){
         inp = charInput();
         if (inp=='0'){
             freopen(filename, "w", file);
+            if (errorCatch()) return;
             while(getchar()!='\n');
         }
         else if (inp == '\n'&&isInputed==1){
@@ -21,6 +23,7 @@ void task(char* filename){
         else if (inp == '\n'){
             printf("\n\nInput error. Please, try again\n\n");
             freopen(filename, "w", file);
+            if (errorCatch()) return;
         }
         else if (inp!=' '){
             fwrite(&inp, sizeof(char), 1, file);
@@ -30,7 +33,7 @@ void task(char* filename){
             fwrite(&inp, sizeof(char), 1, file);
         }
     }
-    fileReading(file, filename);
+    if (fileReading(file, filename)==-1) return;
     printf("\n\nEnter a length of word:\n\n");
     wordLength=intInputPos();
     out = '0';
@@ -77,6 +80,7 @@ Enter the character that the word should start with:\n\n", wordLength, lengthCou
         }
     }
     freopen(filename, "r+", file);
+    if (errorCatch()) return;
     fread(&out, sizeof(char), 1, file);
     if (out==firstLetter){
         replaceWithSpace(file);
@@ -93,7 +97,8 @@ Enter the character that the word should start with:\n\n", wordLength, lengthCou
             }
         }
     }
-    fileReading(file, filename);
+    if (fileReading(file, filename)==-1) return;
+    fclose(file);
 
     return;
 }

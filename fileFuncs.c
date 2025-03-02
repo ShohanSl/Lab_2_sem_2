@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include "./headers/fileFuncs.h"
 
+int errorCatch(FILE* file){
+    if (file==NULL){
+        printf("\n\nFile opening error\n");
+        return 1;
+    }
+    else return 0;
+}
+
 void replaceWithSpace(FILE* file){
     char out, space = ' ';
     fseek(file, -1, SEEK_CUR);
@@ -18,12 +26,16 @@ void replaceWithSpace(FILE* file){
     fseek(file, -1, SEEK_CUR);
 }
 
-void fileReading(FILE* file, char* filename){
+int fileReading(FILE* file, char* filename){
     char out='0';
     printf("\nFile content:\n\n");
     freopen(filename, "r", file);
+    if (errorCatch(file)) return -1;
     while(out!='\n'){
         fread(&out, sizeof(char), 1, file);
         printf("%c", out);
     }
+    return 0;
 }
+
+

@@ -1,8 +1,10 @@
 #ifndef FILEFUNCS_H
 #define FILEFUNCS_H
 
+int errorCatch();
+
 void replaceWithSpace();
 
-void fileReading();
+int fileReading();
 
 #endif
